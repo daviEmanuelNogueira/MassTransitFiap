@@ -19,14 +19,15 @@ public class PedidoController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post()
     {
-        var nomeFila = _configuration.GetSection("MassTransit")["NomeFila"] ?? string.Empty;
+        //var nomeFila = _configuration.GetSection("MassTransitAzure")["NomeFila"] ?? string.Empty;
 
-        var endpoint = await _bus
-            .GetSendEndpoint(new Uri($"queue:{nomeFila}"));
+        //var endpoint = await _bus
+        //.GetSendEndpoint(new Uri($"queue:{nomeFila}"));
 
-        await endpoint.Send(new Pedido(1,
+        //await endpoint.Send(new Pedido(1,
+        //    new Usuario(5, "Davi", "davi.nogueira@skytel.com")));
+        await _bus.Publish(new Pedido(1,
             new Usuario(5, "Davi", "davi.nogueira@skytel.com")));
-
         return Ok();
     }
 }
